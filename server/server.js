@@ -4,17 +4,14 @@ const port = 3000;
 const db = require("./dbModels.js")
 
 
-app.get('/', (req,res) => {
-    res.send('Hello Kitty Clicker');
-})
-
-app.get('/dbtest', (req,res) => {
+app.get('/data', (req,res) => {
     //query for all cats
     const allCats = 'SELECT * from "Cats"'; 
+    const testUser = 'SELECT * FROM "Users" WHERE _id=2'
     
-    db.query(allCats, null, (err, results) => {
+    db.query(testUser, null, (err, results) => {
         res.locals = results.rows;
-        console.log(res.locals);
+        console.log("FROM SERVER: ", res.locals);
         res.send(res.locals);
     })
     
