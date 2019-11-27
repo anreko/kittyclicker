@@ -104,5 +104,26 @@ app.post('/saveData', (req, res) => {
     }) 
 })
 
+app.post('/login', (req, res) => {
+    console.log(req.body)
+    let username = req.body.username;
+    let password = req.body.password;
+    let loginString = `SELECT username, password FROM "Users" WHERE username='${username}' AND password='${password}'`
+    
+    db.query(loginString, null, (err, results) => {
+        if (err) {
+            console.log('Error checking login in database');
+            return res.status(500).send('Error checking login');
+        }
+        console.log("RESULTS FROM LOGIN", results);
+        if (results.rows.length === 1) {
+            return res.status(200).json(true);
+        }
+        else return res.status(200).json(false);
+    }) 
+})
+
+
+
 
 app.listen(port, () => console.log('Listening on port:', port));
