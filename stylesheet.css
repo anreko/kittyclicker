@@ -30,7 +30,7 @@ body {
     border-radius: 5px;
 }
 
-#main {
+.main {
     border: 3px solid black;
     border-radius: 10px;
     background-color: white;
@@ -93,4 +93,23 @@ body {
 .fas {
     margin-left: 5px;
     color: #0c4a8e;
+}
+
+.centered {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+label {
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+#username {
+    margin-bottom: 2%;
+}
+
+#password {
+    margin-bottom: 2%;
 }
