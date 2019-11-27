@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 function Login(props) {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    const [errDisplay, setErrDisplay] = useState("hidden")
 
 
     function checkLogin(){     
@@ -16,7 +17,7 @@ function Login(props) {
             if (response === true){
                 props.setLogged(true);
             }
-            else console.log('Username/Pass does not exist');
+            else setErrDisplay("loginErr");
         })
 
     }
@@ -24,16 +25,20 @@ function Login(props) {
 
     return (
         <div className="main centered">
-            <h1>Log In</h1>
-            <div id="username">
-                <label htmlFor="username">Username</label><br />
-                <input type="text" name="username" onChange={e => setUsername(e.target.value)}></input>
+            <h1>Kitty Clicker</h1>
+            <h2>Log In</h2>
+            <p id={errDisplay}>Incorrect Username or Password</p>
+            <div id="loginForm">
+                <div id="username">
+                    <label htmlFor="username">Username</label><br />
+                    <input type="text" name="username" onChange={e => setUsername(e.target.value)}></input>
+                </div>
+                <div id="password">
+                    <label htmlFor="username">Password</label><br />
+                    <input type="password" name="password" onChange={e => setPassword(e.target.value)}></input>
+                </div>
             </div>
-            <div id="password">
-                <label htmlFor="username">Password</label><br />
-                <input type="password" name="password" onChange={e => setPassword(e.target.value)}></input>
-            </div>
-            <button onClick={()=>{checkLogin()}}>Log In<span className="fas fa-paw"></span></button>
+            <button id="loginBtn" onClick={()=>{checkLogin()}}>Log In<span className="fas fa-paw"></span></button>
         </div>
       )
 }
