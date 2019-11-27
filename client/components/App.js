@@ -1,5 +1,7 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useRef} from 'react';
 import FishesDisplay from './fishesDisplay.jsx';
+import CatAllTiles from './catAllTiles.jsx';
+//import provider from globalState
 
 function App() {
   //set state
@@ -7,22 +9,19 @@ function App() {
   const [fishes, setFishes] = useState(0);
   const [cats, setCats] = useState([])
   const [fps, setFps] = useState(0);
-  
-  //context
-  const FpsContext = React.createContext();
 
 
   //runs once on load to get game data
   useEffect(() => {
     fetch('/data')
     //returns an object with userInfo object and catInfo array
-    //TODO Modify query so it doesn't return password.
+    //TODO Modify query so it doesn't return user password or cat cost.
     //catInfo array contains cat objects by ID
       .then(response => response.json())
       .then(data => {
         console.log(data);
         setUser([data.userInfo.username]);
-        setFishes([data.userInfo.fishes])
+        setFishes([parseInt(data.userInfo.fishes)])
         //push user's cat IDs into cats state
         let kittyInfo = {};
         for (let x = 0; x < data.catInfo.length; x++){
@@ -44,10 +43,20 @@ function App() {
       })
   }, []);
 
-  let arrOfNames = [];
-  for (let i = 0; i < cats.length; i++){
-    arrOfNames.push(<li>Cat {i}: {cats[i].name}</li>);
-  }
+    useEffect(() => {
+      let currentFish = parseInt(fishes);
+      const fishesLoop = setInterval(() => {setFishes(parseInt(fishes) + (parseInt(fps) * 5))}, 5000)
+      return function cleanup() {
+        clearInterval(fishesLoop)
+      }
+    },[fishes])
+  
+
+  // TODO Cat Components should maybe live a level down
+  // let arrOfCats = [];
+  // for (let i = 0; i < cats.length; i++){
+  //   arrOfCats.push(<CatComponent info={cats[i]}/>);
+  // }
 
   return (
     <div>
@@ -55,12 +64,8 @@ function App() {
       <h2>now with hooks!</h2>
       <h3>{user} has {fishes} fishes</h3>
       <h3>Earning {fps} per second</h3>
-      <ul>
-        {arrOfNames}
-      </ul>
-      <FpsContext.Provider value={{fishes, fps}}>
-        <FishesDisplay />
-      </FpsContext.Provider>
+        <FishesDisplay fishes={fishes} fps={fps}/>
+        <CatAllTiles cats={cats} />
     </div>
   )
 }

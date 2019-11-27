@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react';
+//import context from globalState
 
-
-function fishesDisplay() {
-    const { fishes, fps } = useContext(FpsContext);
-
+function fishesDisplay(props) {
+    // const [fishes] = useContext(FpsContext);
+    // console.log("FISHES DISPLAY:", props);
     return (
-        <div>Fishes: {fishes}</div>
+        <div>
+            <h2>Fishes: {props.fishes}</h2>
+            <p>{props.fps} per second</p>
+        </div>
     )    
 }
 
