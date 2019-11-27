@@ -5,9 +5,9 @@ function fishesDisplay(props) {
     // const [fishes] = useContext(FpsContext);
     // console.log("FISHES DISPLAY:", props);
     return (
-        <div>
-            <h2>Fishes: {props.fishes}</h2>
-            <p>{props.fps} per second</p>
+        <div id="fishes">
+            <h1 id="totalFish">{props.fishes}<span className="fas fa-fish"></span></h1>
+            <p id="fishPerSec">{props.fps} per second</p>
         </div>
     )    
 }

@@ -44,28 +44,33 @@ function App() {
   }, []);
 
     useEffect(() => {
-      let currentFish = parseInt(fishes);
       const fishesLoop = setInterval(() => {setFishes(parseInt(fishes) + (parseInt(fps) * 5))}, 5000)
       return function cleanup() {
         clearInterval(fishesLoop)
       }
     },[fishes])
-  
 
-  // TODO Cat Components should maybe live a level down
-  // let arrOfCats = [];
-  // for (let i = 0; i < cats.length; i++){
-  //   arrOfCats.push(<CatComponent info={cats[i]}/>);
-  // }
+    function save(){
+      console.log('Trying to save fishes:', fishes);
+      fetch('/saveData', {
+        method: 'POST',
+        body: JSON.stringify({fishes}),
+        headers: {'Content-Type': 'application/json'}
+        })
+    .then(response => response.json())
+    .then(response => console.log(response))
+    }
 
   return (
-    <div>
-      <h1>Kitty Clicker</h1>
-      <h2>now with hooks!</h2>
-      <h3>{user} has {fishes} fishes</h3>
-      <h3>Earning {fps} per second</h3>
+    <div id="gameScreen">
+      <div id="title">
+        <h2>Kitty Clicker</h2>
+        <button id="saveBtn" onClick={() => save()}>save</button>
+      </div>
+      <div id="main">
         <FishesDisplay fishes={fishes} fps={fps} />
-        <CatAllTiles cats={cats} setCats={setCats}/>
+        <CatAllTiles cats={cats} setCats={setCats} setFps={setFps} fishes={fishes} setFishes={setFishes}/>
+      </div>
     </div>
   )
 }

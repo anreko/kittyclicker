@@ -38,6 +38,26 @@ dbController.getCats = (req, res, next) => {
     })    
 }
 
+//update cat info
+dbController.updateCats = (req, res, next) => {
+    //TODO Current query is for a single test user, ID 2  
+    let whichCat = req.body.whichCat;
+    let currentCat = req.body.currentID;
+    let queryString = `UPDATE "Users" SET cat_${whichCat + 1}=${currentCat + 1} WHERE _id=2 RETURNING *`;
+
+    db.query(queryString, null, (err, results) => {
+        if (err) {
+            console.log('Error updating cat in database');
+            return res.status(500).send('Error updating cat');
+        }
+        res.locals.userInfo = results.rows[0]
+        return next();
+    }) 
+}
+
+
+
+
 
 app.use(bodyParser.json());
 
@@ -46,8 +66,10 @@ app.get('/', (req, res) => {
 })
 
 app.get('/build/bundle.js', (req, res) => {
-    console.log(path.join(__dirname, '../build/bundle.js'))
     res.sendFile(path.join(__dirname, '../build/bundle.js'))
+})
+app.get('/stylesheet.css', (req, res) => {
+    res.sendFile(path.join(__dirname, '../stylesheet.css'))
 })
 
 //data needed to start:
@@ -57,15 +79,29 @@ app.get('/data', dbController.getUser, dbController.getCats, (req,res) => {
     //query for user info: username, fishes, cat1-cat
     //query for cat info this user needs
     //send it all back to be put into state on the front end
-    console.log("FROM /data GET: ", res.locals);
+    // console.log("FROM /data GET: ", res.locals);
     res.status(200).json(res.locals);
     
 })
 
-app.post('/updateCat', (req,res) => {
-    // let newCat = req.body;
-    console.log("REQUEST BODY:", req.body);
-    return res.status(200).send('Received');
+app.post('/updateCat', dbController.updateCats, dbController.getCats, (req,res) => {
+    // need to change column whichCat (cat_[whichCat]) to be currentID + 1
+    res.status(200).json(res.locals);
+})
+
+app.post('/saveData', (req, res) => {
+    //TODO Current query is for a single test user, ID 2  
+    console.log(req.body);
+    let fishToSave = req.body.fishes;
+    let queryString = `UPDATE "Users" SET fishes=${fishToSave} WHERE _id=2`;
+
+    db.query(queryString, null, (err, results) => {
+        if (err) {
+            console.log('Error updating cat in database');
+            return res.status(500).send('Error updating cat');
+        }
+        return res.status(200).json('Update compete!');
+    }) 
 })
 
 

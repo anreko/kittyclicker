@@ -12,7 +12,8 @@ module.exports = {
         publicPath: '/build/',
         //If proxy is needed 
         proxy: {'/data': 'http://localhost:3000',
-                '/updateCat': 'http://localhost:3000'}
+                '/updateCat': 'http://localhost:3000',
+                '/saveData': 'http://localhost:3000'}
     },
     module: {
         rules: [
