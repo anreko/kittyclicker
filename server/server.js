@@ -58,7 +58,7 @@ dbController.updateCats = (req, res, next) => {
 
 
 
-
+app.use(express.static('/catPNGs/'))
 app.use(bodyParser.json());
 
 app.get('/', (req, res) => {

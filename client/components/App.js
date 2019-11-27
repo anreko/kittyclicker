@@ -44,7 +44,7 @@ function App() {
   }, []);
 
     useEffect(() => {
-      const fishesLoop = setInterval(() => {setFishes(parseInt(fishes) + (parseInt(fps) * 5))}, 5000)
+      const fishesLoop = setInterval(() => {setFishes(parseInt(fishes) + (parseInt(fps)))}, 1000)
       return function cleanup() {
         clearInterval(fishesLoop)
       }
