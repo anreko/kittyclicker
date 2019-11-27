@@ -64,8 +64,8 @@ function App() {
       <h2>now with hooks!</h2>
       <h3>{user} has {fishes} fishes</h3>
       <h3>Earning {fps} per second</h3>
-        <FishesDisplay fishes={fishes} fps={fps}/>
-        <CatAllTiles cats={cats} />
+        <FishesDisplay fishes={fishes} fps={fps} />
+        <CatAllTiles cats={cats} setCats={setCats}/>
     </div>
   )
 }

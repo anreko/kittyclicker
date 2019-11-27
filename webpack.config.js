@@ -11,7 +11,8 @@ module.exports = {
     devServer: {
         publicPath: '/build/',
         //If proxy is needed 
-        proxy: {'/data': 'http://localhost:3000'}
+        proxy: {'/data': 'http://localhost:3000',
+                '/updateCat': 'http://localhost:3000'}
     },
     module: {
         rules: [

@@ -5,7 +5,7 @@ import CatComponent from './catComponent.jsx';
 function catComponent(props) {
     let arrOfCats = [];
     for (let i = 0; i < props.cats.length; i++){
-        arrOfCats.push(<CatComponent info={props.cats[i]}/>);
+        arrOfCats.push(<CatComponent key={i} id={i} info={props.cats[i]} setCats={props.setCats}/>);
     }
 
     return (

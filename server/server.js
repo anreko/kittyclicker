@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const port = 3000;
 const db = require("./dbModels.js")
+const path = require('path');
+const bodyParser = require('body-parser');
 
 const dbController = {};
 
@@ -37,7 +39,16 @@ dbController.getCats = (req, res, next) => {
 }
 
 
+app.use(bodyParser.json());
 
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../index.html'))
+})
+
+app.get('/build/bundle.js', (req, res) => {
+    console.log(path.join(__dirname, '../build/bundle.js'))
+    res.sendFile(path.join(__dirname, '../build/bundle.js'))
+})
 
 //data needed to start:
 //username, fishes, cat_1-cat_4 IDs
@@ -49,6 +60,12 @@ app.get('/data', dbController.getUser, dbController.getCats, (req,res) => {
     console.log("FROM /data GET: ", res.locals);
     res.status(200).json(res.locals);
     
+})
+
+app.post('/updateCat', (req,res) => {
+    // let newCat = req.body;
+    console.log("REQUEST BODY:", req.body);
+    return res.status(200).send('Received');
 })
 
 
